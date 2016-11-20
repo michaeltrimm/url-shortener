@@ -61,6 +61,34 @@ $app->add(function ($req, $res, $next) {
           ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 });
 
+# TEMPLATES
+$container = $app->getContainer();
+
+// Register component on container
+$container['view'] = function ($container) {
+    $view = new \Slim\Views\Twig('templates', [
+        'cache' => 'templates/cache'
+    ]);
+    $view->addExtension(
+      new Slim\Views\TwigExtension(
+        $container['router'], 
+        $container['request']->getUri()
+      )
+    );
+    return $view;
+};
+
+$container['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        return $c['view']->render($response, "404.twig");
+    };
+};
+$container['notAllowedHandler'] = function ($c) {
+    return function ($request, $response, $methods) use ($c) {
+        return $c['view']->render($response, "404.twig");;
+    };
+};
+
 $app->post('/new', function($request, $response, $args) use ($pdo) {
   $data = $request->getParsedBody();
   if(!isset($data['url']) || strlen($data['url']) <= 5){
