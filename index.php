@@ -7,6 +7,7 @@ ini_alter("display_errors","on");
 
 if(!file_exists(__DIR__.".installed") || !file_exists("config.inc.php")){
   header("Location: install.html");
+  die;
 }
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -99,7 +100,7 @@ $app->get('/', function($request, $response, $args){
   $csfr_valueKey = $this->csrf->getTokenValueKey();
   $csfr_name = $request->getAttribute($csfr_nameKey);
   $csfr_value = $request->getAttribute($csfr_valueKey);
-  return $this->view->render($response, 'index.html', [
+  return $this->view->render($response, 'index.twig', [
       "csfr_nameKey" => $csfr_nameKey,
       "csfr_valueKey" => $csfr_valueKey,
       "csfr_name" => $csfr_name,
@@ -110,7 +111,7 @@ $app->get('/', function($request, $response, $args){
 $app->post('/new', function($request, $response, $args) use ($pdo) {
   $data = $request->getParsedBody();
   if(!isset($data['url']) || strlen($data['url']) <= 5){
-    return $this->view->render($response, 'nourl.html');
+    return $this->view->render($response, 'nourl.twig');
   }
 
   $url = base64_encode(filter_var($data['url'], FILTER_SANITIZE_URL));
@@ -137,7 +138,7 @@ $app->post('/new', function($request, $response, $args) use ($pdo) {
 
   $s_for_https = $_SERVER['SERVER_PORT'] == 443 ? "s" : "";
   $domain = $_SERVER['HTTP_HOST'];
-  return $this->view->render($response, 'view.html', [
+  return $this->view->render($response, 'view.twig', [
       'code' => $code,
       'url' => base64_decode($url),
       'found' => $found,
@@ -151,7 +152,7 @@ $app->get('/i/{code:[A-Za-z0-9]+}', function ($request, $response, $args) {
   $code = $args['code'];
   $results = checkDbForCode($code);
   if(is_null($results)){
-    return $this->view->render($response, 'error.html');
+    return $this->view->render($response, 'error.twig');
   } else {
     header("Location: ". base64_decode($results['url']));
   }
@@ -163,7 +164,7 @@ $app->post('/i/{code:[A-Za-z0-9]+}', function ($request, $response, $args) {
   $results = checkDbForCode($code);
   $s_for_https = $_SERVER['SERVER_PORT'] == 443 ? "s" : "";
   $domain = $_SERVER['HTTP_HOST'];
-  return $this->view->render($response, 'view.html', [
+  return $this->view->render($response, 'view.twig', [
       'code' => $code,
       'url' => base64_decode($results['url']),
       "domain" => $domain,
