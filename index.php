@@ -48,6 +48,19 @@ $app = new \Slim\App([
   ]
 ]);
 
+# CORS
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+  return $response;
+});
+
+$app->add(function ($req, $res, $next) {
+  $response = $next($req, $res);
+  return $response
+          ->withHeader('Access-Control-Allow-Origin', 'https://'.$DOMAIN)
+          ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+          ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+});
+
 $app->post('/new', function($request, $response, $args) use ($pdo) {
   $data = $request->getParsedBody();
   if(!isset($data['url']) || strlen($data['url']) <= 5){
