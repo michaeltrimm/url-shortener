@@ -139,7 +139,7 @@ EOM
   echo "${CONFIGS}" > config.inc.php
   printf "${GREEN}✓${NC} Installed configs to config.inc.php\n"
   
-  echo "${ENCRYPTION_KEY}" > .key
+  echo ${ENCRYPTION_KEY} > .key
   printf "${GREEN}✓${NC} Installed encryption key to .key\n"
 }
 
