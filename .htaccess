@@ -1,44 +1,64 @@
+# Slim requires Apache's Rewrite module
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-# RewriteCond %{HTTPS} !on
 
+# Force HTTPS by removing the # from the following 2 lines
+# RewriteCond %{HTTPS} !on
 # RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+
+# Redirect Everything to Slim Router
 RewriteRule ^ index.php [QSA,L]
 
+# Set IS_DEV to 1 if running in development, test, staging, or pre-production; otherwise set 0 for production mode
 SetEnv IS_DEV 1
 
+# If you wish to enable HSTS, uncomment the following 3 lines
 #<IfModule mod_headers.c>
 #  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 #</IfModule>
 
 # block the .htaccess file from being viewed
 <Files ".htaccess">
+  ## Apache 2.2
   Order Allow,Deny
   Deny from all
-</Files>
-
-# block the config.json file from being viewed
-<Files "config.json">
-  Order Allow,Deny
-  Deny from all
+  Satisfy All
+  
+  ## Apache 2.4
+  # Require all denied
 </Files>
 
 <Files ".key">
+  ## Apache 2.2
   Order Allow,Deny
   Deny from all
+  Satisfy All
+  
+  ## Apache 2.4
+  # Require all denied
 </Files>
 
 # block the composer.json file from being viewed
 <Files "composer.json">
+  ## Apache 2.2
   Order Allow,Deny
   Deny from all
+  Satisfy All
+  
+  ## Apache 2.4
+  # Require all denied
 </Files>
 
 # block the composer.lock file from being viewed
 <Files "composer.lock">
+  ## Apache 2.2
   Order Allow,Deny
   Deny from all
+  Satisfy All
+  
+  ## Apache 2.4
+  # Require all denied
 </Files>
 
 <FilesMatch "(\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|swp|template|phar|md)|~)$">
@@ -54,6 +74,7 @@ SetEnv IS_DEV 1
 # Set eTags Off
 FileETag None
 
+# Block known user-agents associated with hacking or preservation
 RewriteCond %{HTTP_USER_AGENT} ^BlackWidow [OR]
 RewriteCond %{HTTP_USER_AGENT} ^Bot\ mailto:craftbot@yahoo.com [OR]
 RewriteCond %{HTTP_USER_AGENT} ^ChinaClaw [OR]
