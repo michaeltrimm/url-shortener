@@ -56,9 +56,9 @@ You must also have access to the following:
         
         5.3. If `install-url-shortener.sql` is created, you must, with a privileged mysql user run the following command
         
-            ```bash
+            
             mysql -u root -p < install-url-shortener.sql
-            ```
+            
 
 ## Disclaimer
 
