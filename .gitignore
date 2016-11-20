@@ -1,0 +1,9 @@
+.DS_Store
+.idea
+vendor
+config.json
+.key
+composer.lock
+composer.phar
+composer-setup.php
+.installed
