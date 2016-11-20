@@ -44,17 +44,17 @@ You must also have access to the following:
     
     4. Saving the configuration: 
     
-        4.1. If the installer is able to access the MySQL server, the host, database, username, and password are encrypted with the randomly generated password (from 3.1) and stored as a `base64` hash inside the `config.inc.php` file. 
+        iv.1. If the installer is able to access the MySQL server, the host, database, username, and password are encrypted with the randomly generated password (from 3.i) and stored as a `base64` hash inside the `config.inc.php` file. 
         
-        4.2. If the installer cannot access then the installation script will keep prompting for a combination that works. 
+        iv.2. If the installer cannot access then the installation script will keep prompting for a combination that works. 
     
     5. SQL table/database installation 
     
-        5.1. If the installer is able to create the database, it will attempt to install the necessary tables
+        v.1. If the installer is able to create the database, it will attempt to install the necessary tables
         
-        5.2. If the installer is unable to create the database, it will generate a file called `install-url-shortener.sql`
+        v.2. If the installer is unable to create the database, it will generate a file called `install-url-shortener.sql`
         
-        5.3. If `install-url-shortener.sql` is created, you must, with a privileged mysql user run the following command
+        v.3. If `install-url-shortener.sql` is created, you must, with a privileged mysql user run the following command
         
             
             mysql -u root -p < install-url-shortener.sql
