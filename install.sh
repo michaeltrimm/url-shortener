@@ -1,4 +1,12 @@
 #!/bin/bash
+# 
+# install stuff required for url-shorterner project to function
+#
+# @version @package_version@
+# @author Michael A. Trimm
+# @website https://github.com/michaeltrimm
+#
+#
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -20,7 +28,6 @@ printf "${BLUE}Composer${NC}\n"
 if [ ! -f "composer.phar" ]
 then
   php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-  php -r "if (hash_file('SHA384', 'composer-setup.php') === 'aa96f26c2b67226a324c27919f1eb05f21c248b987e6195cad9690d5c1ff713d53020a02ac8c217dbf90a7eacc9d141d') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
   if [ -a "composer-setup.php" ]
   then php composer-setup.php
   else exit;
