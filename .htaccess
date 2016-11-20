@@ -41,7 +41,7 @@ SetEnv IS_DEV 1
   Deny from all
 </Files>
 
-<FilesMatch "(\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|swp)|~)$">
+<FilesMatch "(\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|swp|template|phar|md)|~)$">
     ## Apache 2.2
     Order allow,deny
     Deny from all
