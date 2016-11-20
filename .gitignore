@@ -2,6 +2,7 @@
 .idea
 vendor
 config.json
+config.inc.php
 .key
 composer.lock
 composer.phar
