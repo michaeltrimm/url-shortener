@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="container">
+  <div align="center"><a href="/" title="URL Shortener">{% include "logo.twig" %}</a></div>
+  <h1 align="center">URL Shortener</h1>
+  {% if found == 1 %}
+    
+    <div class="well" align="center">
+      <h1>We've already shortened this url!</h1>
+      <input type="text" value="https://mts.yt/i/{{ code }}" class="form-control" style="text-align: center;">
+    </div>
+  
+  {% else %}
+  
+    <div class="well" align="center">
+      <h1>Here you go!</h1>
+      <input type="text" value="http{{ s_for_https }}://{{ domain }}/i/{{ code }}" class="form-control" style="text-align: center;">
+    </div>
+  
+  {% endif %}
+
+</div>
+
+<script type="text/javascript">
+window.history.pushState(null, 'URL {{ code }}', '/i/{{ code }}');
+</script>
+
+{% endblock %}
