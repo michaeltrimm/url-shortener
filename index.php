@@ -89,6 +89,24 @@ $container['notAllowedHandler'] = function ($c) {
     };
 };
 
+# csrf
+$container['csrf'] = function ($c) {
+    return new \Slim\Csrf\Guard;
+};
+
+$app->get('/', function($request, $response, $args){
+  $csfr_nameKey = $this->csrf->getTokenNameKey();
+  $csfr_valueKey = $this->csrf->getTokenValueKey();
+  $csfr_name = $request->getAttribute($csfr_nameKey);
+  $csfr_value = $request->getAttribute($csfr_valueKey);
+  return $this->view->render($response, 'index.html', [
+      "csfr_nameKey" => $csfr_nameKey,
+      "csfr_valueKey" => $csfr_valueKey,
+      "csfr_name" => $csfr_name,
+      "csfr_value" => $csfr_value
+  ]);
+})->add($container->get('csrf'));
+
 $app->post('/new', function($request, $response, $args) use ($pdo) {
   $data = $request->getParsedBody();
   if(!isset($data['url']) || strlen($data['url']) <= 5){
