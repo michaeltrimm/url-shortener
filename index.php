@@ -5,7 +5,7 @@ define("APP",1);
 error_reporting(E_ALL);
 ini_alter("display_errors","on");
 
-if(!file_exists(__DIR__.".installed") || !file_exists("config.inc.php")){
+if(!file_exists(__DIR__."/.installed") || !file_exists(__DIR__."/config.inc.php")){
   header("Location: install.html");
   die;
 }
@@ -14,7 +14,10 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/lib/encryption.php';
 require_once __DIR__ . '/lib/helpers.php';
 
+global $DOMAIN;
+
 $key = file_get_contents(__DIR__."/.key");
+$key = substr($key,0,32);
 include __DIR__."/config.inc.php";
 
 # PDO
@@ -56,6 +59,7 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 
 $app->add(function ($req, $res, $next) {
   $response = $next($req, $res);
+  global $DOMAIN;
   return $response
           ->withHeader('Access-Control-Allow-Origin', 'https://'.$DOMAIN)
           ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')

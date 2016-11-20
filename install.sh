@@ -243,7 +243,7 @@ EOM
 
 if [ ! -f ".key" ]
 then 
-  ENCRYPTION_KEY=$(php -r "require 'vendor/autoload.php'; echo bin2hex(random_bytes(16));")
+  ENCRYPTION_KEY=$(php -r "require 'vendor/autoload.php'; echo substr(bin2hex(random_bytes(32)),0,32);")
   printf "Random password generated ${RED}${ENCRYPTION_KEY}${NC} which will be used for encryption\n"
   printf "${GREEN}✓${NC} Generated secure encryption key\n"
   
